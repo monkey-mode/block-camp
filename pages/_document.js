@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/google-font-display */
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { CssBaseline } from "@nextui-org/react";
@@ -15,7 +16,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {CssBaseline.flush()}
+          {CssBaseline.flush()}          
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"

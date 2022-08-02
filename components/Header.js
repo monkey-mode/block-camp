@@ -3,8 +3,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Headers() {
   return (
-    <Container sm>
-      <Card.Footer
+    <Card.Footer
         isBlurred
         css={{
           position: "sticky",
@@ -14,11 +13,10 @@ export default function Headers() {
           zIndex: 1,
         }}
       >
-        <Row justify="space-between">
+        <Container sm><Row justify="space-between">
           <Text>AuditDAO</Text>
           <ConnectButton />
-        </Row>
+        </Row></Container>
       </Card.Footer>
-    </Container>
   );
 }

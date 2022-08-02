@@ -3,7 +3,7 @@ import {
   Container,
   Grid,
   Card,
-  Link,
+  Col,
   Avatar,
   Textarea,
   Spacer,
@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { mockBounty, mockComments } from "../../mock";
-import { CommentCard } from "../../components/CommentCard";
+
 export default function Bounty() {
   const router = useRouter();
   const { id } = router.query;
@@ -46,35 +46,44 @@ export default function Bounty() {
             <Text>{bounty ? bounty.description : ""}</Text>
           </Card.Body>
           <Card.Footer>
-            <Link
-              icon
-              color="primary"
-              target="_blank"
-              href="https://github.com/nextui-org/nextui"
-            >
-              Visit source code on GitHub.
-            </Link>
-            <Avatar
-              size="lg"
-              src={`https://i.pravatar.cc/150?u=${id}`}
-              color="gradient"
-              bordered
-            />
-            <Grid.Container css={{ pl: "$6" }}>
+            <Grid.Container>
               <Grid xs={12}>
-                <Text h4 css={{ lineHeight: "$xs" }}>
-                  {bounty ? bounty.projectName : ""}
-                </Text>
-              </Grid>
-              <Grid xs={12}>
-                <Text css={{ color: "$accents8" }}>
-                  {bounty ? bounty.title : ""}
-                </Text>
+                <Row justify="space-between" align="baseline">
+                  
+                  <Button light color="primary" auto size="sm">
+                  <Text small b>
+                    Add Comment
+                  </Text>
+        </Button>
+                  <Row css={{ width: "fit-content" }}>
+                    <Avatar
+                      size="lg"
+                      src={`https://i.pravatar.cc/150?u=${id}`}
+                      color="gradient"
+                      z
+                      bordered
+                      css={{ mr: "$6" }}
+                    />
+                    <Col css={{ width: "fit-content" }}>
+                      <Text h4 css={{ lineHeight: "$xs" }}>
+                        {bounty ? bounty.projectName : ""}
+                      </Text>
+                      <Text css={{ color: "$accents8" }}>
+                        {bounty ? bounty.title : ""}
+                      </Text>
+                    </Col>
+                  </Row>
+                </Row>
               </Grid>
             </Grid.Container>
           </Card.Footer>
         </Card>
         <Spacer y={1} />
+        <Row>
+          <Button bordered color="gradient" auto>
+            {`${mockComments.length} Participant`}
+          </Button>
+        </Row>
         {/* <Textarea
         fullWidth
         bordered
