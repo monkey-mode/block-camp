@@ -12,7 +12,6 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import Footer from "../../components/Footer";
 import { mockBounty, mockComments } from "../../mock";
 
 export default function Bounty() {
@@ -43,9 +42,9 @@ export default function Bounty() {
           <Card.Header>
             <Text h3>Problems with javascript parseInt() [duplicate]</Text>
           </Card.Header>
-          <Card.Body css={{ py: "$2" }}>
+          <Card.Footer css={{ py: "$2" }} isBlurred>
             <Text>{bounty ? bounty.description : ""}</Text>
-          </Card.Body>
+          </Card.Footer>
           <Card.Footer>
             <Grid.Container>
               <Grid xs={12}>
@@ -80,9 +79,7 @@ export default function Bounty() {
         </Card>
         <Spacer y={1} />
         <Row>
-          <Button bordered color="gradient" auto>
-            {`${mockComments.length} Participant`}
-          </Button>
+          <Text h5>{`${mockComments.length} Participant`}</Text>
         </Row>
         {/* <Textarea
         fullWidth
@@ -94,7 +91,8 @@ export default function Bounty() {
           const { like, from, description, reply } = comment;
           return (
             <Grid key={index} xs={12}>
-              <Button.Group auto size="sm" vertical light>
+              <div></div>
+              {/* <Button.Group auto size="sm" vertical light>
                 <Button auto>
                   <span style={{size:"1.5rem"}} className="material-symbols-rounded">
                     arrow_drop_up
@@ -106,8 +104,7 @@ export default function Bounty() {
                     arrow_drop_down
                   </span>
                 </Button>
-              </Button.Group>
-
+              </Button.Group> */}
               <Card>
                 <Card.Body css={{ p: "$6" }}>
                   <Textarea readOnly initialValue={description} />

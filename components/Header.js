@@ -4,19 +4,21 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 export default function Headers() {
   return (
     <Card.Footer
-        isBlurred
-        css={{
-          position: "sticky",
-          bgBlur: "#ffffff66", //isDark ? "#0f111466" : "#ffffff66",
-          borderTop: "$borderWeights$light solid rgba(255, 255, 255, 0.2)",
-          top: 0,
-          zIndex: 1,
-        }}
-      >
-        <Container sm><Row justify="space-between">
+      isBlurred
+      css={{
+        position: "sticky",
+        bgBlur: "#ffffff66", //isDark ? "#0f111466" : "#ffffff66",
+        borderTop: "$borderWeights$light solid rgba(255, 255, 255, 0.2)",
+        top: 0,
+        zIndex: 600,
+      }}
+    >
+      <Container sm>
+        <Row justify="space-between">
           <Text>AuditDAO</Text>
           <ConnectButton />
-        </Row></Container>
-      </Card.Footer>
+        </Row>
+      </Container>
+    </Card.Footer>
   );
 }

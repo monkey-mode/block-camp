@@ -4,7 +4,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  ConnectButton,
 } from "@rainbow-me/rainbowkit";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -28,7 +27,6 @@ function MyApp({ Component, pageProps }) {
   });
 
   return (
-    // 2. Use at the root of your app
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <NextUIProvider>
