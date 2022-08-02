@@ -9,21 +9,26 @@ import {
   Spacer,
   Row,
   Button,
+  Collapse,
 } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { mockBounty, mockComments } from "../../mock";
+import { useAccount } from "wagmi";
 
 export default function Bounty() {
   const router = useRouter();
   const { id } = router.query;
   const [bounty, setBounty] = useState();
+  const [commentText, setCommentText] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const { isConnecting } = useAccount();
 
   useEffect(() => {
     if (id) {
       fetchProfile();
     }
-  }, [id]);
+  }, [id, isConnecting]);
 
   async function fetchProfile() {
     try {
@@ -38,55 +43,100 @@ export default function Bounty() {
   return (
     <Container sm>
       <Grid.Container gap={2} justify="center">
-        <Card>
-          <Card.Header>
-            <Text h3>Problems with javascript parseInt() [duplicate]</Text>
-          </Card.Header>
-          <Card.Footer css={{ py: "$2" }} isBlurred>
-            <Text>{bounty ? bounty.description : ""}</Text>
-          </Card.Footer>
-          <Card.Footer>
-            <Grid.Container>
-              <Grid xs={12}>
-                <Row justify="space-between" align="baseline">
-                  <Button light color="primary" auto size="sm">
-                    <Text small b>
-                      Add Comment
-                    </Text>
-                  </Button>
-                  <Row css={{ width: "fit-content" }}>
-                    <Avatar
-                      size="lg"
-                      src={`https://i.pravatar.cc/150?u=${id}`}
-                      color="gradient"
-                      z
-                      bordered
-                      css={{ mr: "$6" }}
-                    />
-                    <Col css={{ width: "fit-content" }}>
-                      <Text h4 css={{ lineHeight: "$xs" }}>
-                        {bounty ? bounty.projectName : ""}
+        <Grid xs={8}>
+          <Card>
+            <Card.Header css={{ zIndex: 2 }}>
+              <Text h3>Problems with javascript parseInt() [duplicate]</Text>
+            </Card.Header>
+            <Card.Body css={{ height: "150px" }}>
+              <Text>
+                asdladkhasldhashdosdlasldasldglasgdlasdlasldlajsgdljsgd
+                adkbaskdhlahdlhasdsldlsdlhsdlhsfhslflsflsdhf
+                sflihdsofisdlohodufoishfoewpifpsihfohfpoishdf
+                soifhsoifoshfodsfpjhofwepofhgoshfpis slflsfsflhslfhshfoisfohsd
+              </Text>
+              {true ? (
+                <div></div>
+              ) : (
+                <Card.Footer
+                  css={{
+                    bgBlur: "#ffffff66",
+                    position: "absolute",
+                    borderStyle: "dashed",
+                    borderRadius: "0",
+                    height: "100%",
+                    zIndex: 1,
+                    top: 0,
+                    left: 0,
+                  }}
+                  isBlurred
+                ></Card.Footer>
+              )}
+            </Card.Body>
+            <Card.Footer css={{ zIndex: 2 }}>
+              <Grid.Container>
+                <Grid xs={12}>
+                  <Row justify="space-between" align="baseline">
+                    <Button
+                      light
+                      color="primary"
+                      auto
+                      size="sm"
+                      onPress={() => {
+                        setExpanded(!expanded);
+                      }}
+                    >
+                      <Text small b>
+                        Add Comment
                       </Text>
-                      <Text css={{ color: "$accents8" }}>
-                        {bounty ? bounty.title : ""}
-                      </Text>
-                    </Col>
+                    </Button>
+                    <Row css={{ width: "fit-content" }}>
+                      <Avatar
+                        size="lg"
+                        src={`https://i.pravatar.cc/150?u=${id}`}
+                        color="gradient"
+                        z
+                        bordered
+                        css={{ mr: "$6" }}
+                      />
+                      <Col css={{ width: "fit-content" }}>
+                        <Text h4 css={{ lineHeight: "$xs" }}>
+                          {bounty ? bounty.projectName : ""}
+                        </Text>
+                        <Text css={{ color: "$accents8" }}>
+                          {bounty ? bounty.title : ""}
+                        </Text>
+                      </Col>
+                    </Row>
                   </Row>
-                </Row>
-              </Grid>
-            </Grid.Container>
-          </Card.Footer>
-        </Card>
+                </Grid>
+                <Grid xs={12}>
+                  <Collapse
+                    showArrow={false}
+                    expanded={expanded}
+                    css={{ padding: "0px", width: "100%" }}
+                    divider={false}
+                    disabled
+                  >
+                    <Textarea
+                      fullWidth
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                      }}
+                    />
+                  </Collapse>
+                </Grid>
+              </Grid.Container>
+            </Card.Footer>
+          </Card>
+        </Grid>
+        <Grid xs={4}>
+          <Card></Card>
+        </Grid>
         <Spacer y={1} />
         <Row>
           <Text h5>{`${mockComments.length} Participant`}</Text>
         </Row>
-        {/* <Textarea
-        fullWidth
-        bordered
-        color="secondary"
-        labelPlaceholder="Comment"
-      /> */}
         {mockComments.map((comment, index) => {
           const { like, from, description, reply } = comment;
           return (
@@ -170,7 +220,6 @@ export default function Bounty() {
           );
         })}
       </Grid.Container>
-      {/* <Footer /> */}
     </Container>
   );
 }
