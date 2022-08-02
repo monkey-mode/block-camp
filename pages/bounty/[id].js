@@ -12,6 +12,7 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import Footer from "../../components/Footer";
 import { mockBounty, mockComments } from "../../mock";
 
 export default function Bounty() {
@@ -93,10 +94,18 @@ export default function Bounty() {
           const { like, from, description, reply } = comment;
           return (
             <Grid key={index} xs={12}>
-              <Button.Group auto size="sm" vertical color="gradient" bordered>
-                <Button auto>Like</Button>
-                <Button disabled>{like}</Button>
-                <Button>Dislike</Button>
+              <Button.Group auto size="sm" vertical light>
+                <Button auto>
+                  <span style={{size:"1.5rem"}} className="material-symbols-rounded">
+                    arrow_drop_up
+                  </span>
+                </Button>
+                <Button >{like}</Button>
+                <Button>
+                  <span style={{size:"1.5rem"}}  className="material-symbols-rounded">
+                    arrow_drop_down
+                  </span>
+                </Button>
               </Button.Group>
 
               <Card>
@@ -164,6 +173,7 @@ export default function Bounty() {
           );
         })}
       </Grid.Container>
+      {/* <Footer /> */}
     </Container>
   );
 }

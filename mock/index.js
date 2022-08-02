@@ -44,10 +44,19 @@ export const mockComments = [
     description: "You should delete your community",
     like: 90,
     reply: [
-      { commentId: "1234",from: "0x70997970C51812dc", description: "Suck comment i ever seen\nasdasdasdasdasdas\nGGGGGGGGGG" },
-      { commentId: "4321",from: "0x010C7d01b50e0d17dc79C8", description: "Good comment, GO GO GO" },
       {
-        commentId: "5678",from: "0x12dc3A010C7d01b50e0d17d",
+        commentId: "1234",
+        from: "0x70997970C51812dc",
+        description: "Suck comment i ever seen\nasdasdasdasdasdas\nGGGGGGGGGG",
+      },
+      {
+        commentId: "4321",
+        from: "0x010C7d01b50e0d17dc79C8",
+        description: "Good comment, GO GO GO",
+      },
+      {
+        commentId: "5678",
+        from: "0x12dc3A010C7d01b50e0d17d",
         description: "............................Just Spam ...............",
       },
     ],
@@ -56,6 +65,18 @@ export const mockComments = [
     from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
     description: "Your project is scam",
     like: 120,
+    reply: [
+      {
+        commentId: "1234",
+        from: "0x70997970C51812dc",
+        description: "Suck comment i ever seen\nasdasdasdasdasdas\nGGGGGGGGGG",
+      },
+      {
+        commentId: "4321",
+        from: "0x010C7d01b50e0d17dc79C8",
+        description: "Good comment, GO GO GO",
+      },
+    ],
   },
   {
     from: "0x9612aBFa520e1F0A3Ee2B9A683bcC599eF652b44",
