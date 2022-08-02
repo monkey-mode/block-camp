@@ -7,14 +7,20 @@ class MyDocument extends Document {
     const initialProps = await Document.getInitialProps(ctx);
     return {
       ...initialProps,
-      styles: React.Children.toArray([initialProps.styles])
+      styles: React.Children.toArray([initialProps.styles]),
     };
   }
 
   render() {
     return (
       <Html lang="en">
-        <Head>{CssBaseline.flush()}</Head>
+        <Head>
+          {CssBaseline.flush()}
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />
@@ -25,4 +31,3 @@ class MyDocument extends Document {
 }
 
 export default MyDocument;
-

@@ -92,7 +92,7 @@ query RecommendedProfiles {
 
 export const getProfiles = `
   query Profiles($id: ProfileId!) {
-    profiles(request: { profileIds: [$id], limit: 25 }) {
+    profiles(request: { profileIds: [$id] }) {
       items {
         id
         name
