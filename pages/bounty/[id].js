@@ -49,12 +49,11 @@ export default function Bounty() {
             <Grid.Container>
               <Grid xs={12}>
                 <Row justify="space-between" align="baseline">
-                  
                   <Button light color="primary" auto size="sm">
-                  <Text small b>
-                    Add Comment
-                  </Text>
-        </Button>
+                    <Text small b>
+                      Add Comment
+                    </Text>
+                  </Button>
                   <Row css={{ width: "fit-content" }}>
                     <Avatar
                       size="lg"
@@ -91,39 +90,73 @@ export default function Bounty() {
         labelPlaceholder="Comment"
       /> */}
         {mockComments.map((comment, index) => {
+          const { like, from, description, reply } = comment;
           return (
             <Grid key={index} xs={12}>
               <Button.Group auto size="sm" vertical color="gradient" bordered>
                 <Button auto>Like</Button>
-                <Button disabled>{comment.like}</Button>
+                <Button disabled>{like}</Button>
                 <Button>Dislike</Button>
               </Button.Group>
 
               <Card>
                 <Card.Body css={{ p: "$6" }}>
-                  <Textarea readOnly initialValue={comment.comment} />
+                  <Textarea readOnly initialValue={description} />
                 </Card.Body>
                 <Card.Footer>
-                  <Avatar
-                    size="md"
-                    src={`https://i.pravatar.cc/150?u=${comment.from}`}
-                    color="gradient"
-                    bordered
-                  />
-                  <Grid.Container css={{ pl: "$6" }}>
+                  <Grid.Container>
                     <Grid xs={12}>
-                      <Text h6>{comment.from}</Text>
+                      <Avatar
+                        css={{ mr: "$6" }}
+                        size="md"
+                        src={`https://i.pravatar.cc/150?u=${from}`}
+                        color="gradient"
+                        bordered
+                      />
+                      <Col>
+                        <Text h6>{from}</Text>
+                        <>
+                          <span className="material-symbols-rounded">
+                            workspace_premium
+                          </span>
+                          <span className="material-symbols-rounded">
+                            military_tech
+                          </span>
+                          <span className="material-symbols-rounded">
+                            verified
+                          </span>
+                          <span className="material-symbols-rounded">
+                            token
+                          </span>
+                        </>
+                      </Col>
                     </Grid>
-                    <Grid xs={12}>
-                      <span className="material-symbols-rounded">
-                        workspace_premium
-                      </span>
-                      <span className="material-symbols-rounded">
-                        military_tech
-                      </span>
-                      <span className="material-symbols-rounded">verified</span>
-                      <span className="material-symbols-rounded">token</span>
-                    </Grid>
+
+                    <Grid.Container>
+                      <Button light auto size="sm">
+                        <Text small b>
+                          Reply
+                        </Text>
+                      </Button>
+                      {reply
+                        ? reply.map((reply, index) => {
+                            return (
+                              <Grid xs={12} key={index}>
+                                <Col>
+                                  <Card.Divider></Card.Divider>
+                                  <Text small css={{ pl: "$8" }}>
+                                    {reply.description}
+                                  </Text>
+                                  <Text
+                                    small
+                                    color="primary"
+                                  >{` - ${reply.from}`}</Text>
+                                </Col>
+                              </Grid>
+                            );
+                          })
+                        : () => {}}
+                    </Grid.Container>
                   </Grid.Container>
                 </Card.Footer>
               </Card>
