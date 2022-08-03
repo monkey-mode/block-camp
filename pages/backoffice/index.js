@@ -88,10 +88,9 @@ export default function BackOffice() {
                 <Card.Body css={{ paddingTop: 0, paddingBottom: 0 }}>
                   <Text h4>{title}</Text>
                   <Grid.Container>
-                    <Grid xs={12}>
-                      <Text>{description.text}</Text>
+                  <Grid xs={12}>
                     <Text>{description.link}</Text>
-                    </Grid>
+                  </Grid>
                   </Grid.Container>
                 </Card.Body>
                 {/* <Card.Divider></Card.Divider> */}

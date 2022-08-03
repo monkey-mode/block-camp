@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import ABI from "../assets/abi.json"
 
 export function useEther() {
     let provider;
@@ -6,17 +7,45 @@ export function useEther() {
         provider = new ethers.providers.Web3Provider(window.ethereum)
 
       }
+  const contractAddress = "0x3Ef7505dbcFb287489aD0b95265ccfb4f850E36C"
+  const auditorium = new ethers.Contract(contractAddress, ABI, provider)
+
 
   async function getBalance(){
     let balance
     try{
-        const signer = await provider.getSigner().getAddress()
-        console.log(signer)
         balance = await provider.getBalance("0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
     }catch(e){
         console.log(e)
     }
     return ethers.utils.formatEther(balance)
+  }
+
+  async function getAllProposal(){
+    let balance
+    try{
+        balance = await auditorium.getAllProposal();
+        console.log(balance,"proposal")
+    }catch(e){
+        console.log(e)
+    }
+    
+  }
+
+  async function propose(onChain){
+    const {_period,_amount,_highAuditMax,_midAuditMax} =onChain;
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner()
+    const auditoriumWithSigner = auditorium.connect(signer);
+
+    let balance
+    try{
+        balance = await auditoriumWithSigner.propose(_period,_amount,_highAuditMax,_midAuditMax);
+        console.log(balance,"proposal")
+    }catch(e){
+        console.log(e)
+    }
+    
   }
 
 //   async function getTokenInfo(): Promise<TokenInfo> {
@@ -96,6 +125,8 @@ export function useEther() {
 //   }
 
   return {
-    getBalance
+    getBalance,
+    getAllProposal,
+    propose
   }
 }

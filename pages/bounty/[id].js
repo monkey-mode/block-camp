@@ -19,6 +19,7 @@ import { useAccount } from "wagmi";
 import { useApi } from "../../hooks/useApi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEther } from "../../hooks/useEther";
+import parse from 'html-react-parser';
 
 function Bounty() {
   const router = useRouter();
@@ -86,20 +87,6 @@ function Bounty() {
             return (
               <Grid key={index} xs={12}>
                 <div></div>
-                {/* like and dislike */}
-                {/* <Button.Group auto size="sm" vertical light>
-                <Button auto>
-                  <span style={{size:"1.5rem"}} className="material-symbols-rounded">
-                    arrow_drop_up
-                  </span>
-                </Button>
-                <Button >{like}</Button>
-                <Button>
-                  <span style={{size:"1.5rem"}}  className="material-symbols-rounded">
-                    arrow_drop_down
-                  </span>
-                </Button>
-              </Button.Group> */}
                 <Card>
                   <Card.Body css={{ p: "$6" }}>
                     <Textarea bordered readOnly initialValue={text} />

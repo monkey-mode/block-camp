@@ -7,12 +7,11 @@ import {
   Grid,
   Row,
   Text,
-  Textarea,
+  Link,
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-
+import parse from 'html-react-parser';
 
 export default function TaskCard(props) {
   const { head, text, link , isLock, bounty,task_id } = props;
@@ -24,8 +23,15 @@ export default function TaskCard(props) {
         <Text h3>{head}</Text>
       </Card.Header>
       <Card.Body>
-        <Text>{text}</Text>
-        <Text>{link}</Text>
+        <div>{parse(text)}</div>
+        <Link
+          icon
+          color="primary"
+          target="_blank"
+          href="https://github.com/nextui-org/nextui"
+        >
+          {link}
+        </Link>
         {isLock ? (
           <div></div>
         ) : (
@@ -59,7 +65,7 @@ export default function TaskCard(props) {
               >
                 <Text small b>
                   <Link href="#comment-section">
-                    <a>Add Your Answer</a>
+                    Add Your Answer
                   </Link>
                 </Text>
               </Button>

@@ -3,10 +3,22 @@ import {
 } from "@nextui-org/react";
 import {useState,useEffect} from "react";
 import { useApi } from "../../hooks/useApi";
+import {useEther } from "../../hooks/useEther";
+import * as dayjs from 'dayjs'
 
 export default function Proposal() {
   const [form,setForm] =useState()
+  const [onChain,setOnChain] = useState()
   const {postPoposal} = useApi();
+  const {getAllProposal,propose} = useEther();
+
+  useEffect(()=>{
+    // async function fetch(){
+    //   console.log(await getAllProposal())
+    // }
+    // fetch()
+    console.log(onChain)
+  },[onChain])
 
   return (
     <Container sm>
@@ -71,6 +83,7 @@ export default function Proposal() {
               type="date"
               color="primary"
           placeholder="Day/Month/Year"
+          onChange={(e)=>{setOnChain({...onChain,_period:dayjs(e.target.value).unix()})}}
 
             />
             <Input
@@ -78,7 +91,7 @@ export default function Proposal() {
           type="number"
           label="Reward"
           placeholder="100 USDC"
-          
+          onChange={(e)=>{setOnChain({...onChain,_amount:parseInt(e.target.value)})}}
         />
           </Grid>
           <Grid xs={12} >
@@ -88,17 +101,19 @@ export default function Proposal() {
               type="number"
               color="primary"
           placeholder="0"
-
+          onChange={(e)=>{setOnChain({...onChain,_midAuditMax:parseInt(e.target.value)})}}
             />
             <Input
           color="secondary"
           type="number"
           label="HighLevel Auditor"
           placeholder="0"
+          onChange={(e)=>{setOnChain({...onChain,_highAuditMax:parseInt(e.target.value)})}}
         />
             </Grid>
             <Button shadow color="gradient" auto css={{mb:"$6"}} onPress={async ()=>{
               await postPoposal(form);
+              await propose(onChain);
             }} >
           Gradient
         </Button>

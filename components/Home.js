@@ -32,8 +32,8 @@ export default function Home() {
       console.log(e);
     }
     setIsLoading(false)
-
   }
+
   return (
     <Container sm>
     <Row align="baseline">
@@ -60,7 +60,7 @@ export default function Home() {
               <Card.Header css={{ justifyContent: "space-between" }}>
                 <div>
                   <Text small b>
-                    End in 20:00:23
+                    14 days left
                   </Text>
                   <div>
                     <Text small color="secondary">
@@ -89,7 +89,6 @@ export default function Home() {
                 <Text h4>{title}</Text>
                 <Grid.Container>
                   <Grid xs={12}>
-                    <Text>{description.text}</Text>
                     <Text>{description.link}</Text>
                   </Grid>
                 </Grid.Container>
