@@ -1,8 +1,18 @@
 import Home from "../components/Home";
+import { useState, useEffect } from "react";
+import { useApi } from "../hooks/useApi";
 
-export default function App() {
+function App() {
+  const { getBountys } = useApi();
 
-  return (
-    <Home/>
-  );
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    console.log(await getBountys());
+  }
+  return <Home />;
 }
+
+export default App;

@@ -1,7 +1,14 @@
 import { Container, Card, Text, Row } from "@nextui-org/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 export default function Headers() {
+  const { isConnected } = useAccount({
+    onDisconnect() {
+      location.reload();
+    }
+  });
+
   return (
     <Card.Footer
       isBlurred

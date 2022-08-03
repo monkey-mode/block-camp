@@ -41,18 +41,18 @@ export const mockBounty = [
 export const mockComments = [
   {
     from: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-    description: "You should delete your community",
+    description: "You should delete your community 🥰",
     like: 90,
     reply: [
       {
         commentId: "1234",
         from: "0x70997970C51812dc",
-        description: "Suck comment i ever seen\nasdasdasdasdasdas\nGGGGGGGGGG",
+        description: "🥳 Suck comment i ever seen\nasdasdasdasdasdas\nGGGGGGGGGG",
       },
       {
         commentId: "4321",
         from: "0x010C7d01b50e0d17dc79C8",
-        description: "Good comment, GO GO GO",
+        description: "Good comment, GO GO GO 🤬",
       },
       {
         commentId: "5678",
@@ -63,7 +63,7 @@ export const mockComments = [
   },
   {
     from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-    description: "Your project is scam",
+    description: "Your project is scam 😶‍🌫️",
     like: 120,
     reply: [
       {
