@@ -34,6 +34,19 @@ function Bounty() {
   const [isLoading,setIsLoading] = useState(false);
 
   useEffect(() => {
+    async function fetchProfile() {
+      setIsLoading(true)
+      try {
+        console.log(await getBalance())
+        const response = await getBounty(id);
+        const responseComment = await getComment(id);
+        setBounty(response.data[0]);
+        setComments(responseComment.data);
+      } catch (e) {
+        console.log(e);
+      }
+      setIsLoading(false)
+    }
     if (id) {
       fetchProfile();
     }
@@ -42,22 +55,6 @@ function Bounty() {
   useEffect(()=>{
     setShowWhitelist(address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
   },[address])
-
-  
-
-  async function fetchProfile() {
-    setIsLoading(true)
-    try {
-      console.log(await getBalance())
-      const response = await getBounty(id);
-      const responseComment = await getComment(id);
-      setBounty(response.data[0]);
-      setComments(responseComment.data);
-    } catch (e) {
-      console.log(e);
-    }
-    setIsLoading(false)
-  }
 
   return (
     <Container sm>
