@@ -23,7 +23,7 @@ function Headers() {
     >
       <Container sm>
         <Row justify="space-between">
-          <Text>AuditDAO</Text>
+          <Text>Auditorium</Text>
           <ConnectButton />
         </Row>
       </Container>
