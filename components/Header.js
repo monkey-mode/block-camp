@@ -1,14 +1,25 @@
-import { Container, Card, Text, Row } from "@nextui-org/react";
+import { Container, Card, Text,Button, Row } from "@nextui-org/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-import {useEffect} from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useState,useEffect } from 'react';
 
 function Headers() {
-  const { isConnected } = useAccount({
-    onDisconnect() {
-      location.reload();
+  const router = useRouter();
+  const [showApprove,setShowApprove] = useState(false)
+
+  const { isConnected,address } = useAccount(
+    {
+      onDisconnect() {
+        location.replace("/");
+      }
     }
-  });
+  );
+
+  useEffect(()=>{
+    setShowApprove(address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
+  },[address,isConnected])
 
   return (
     <Card.Footer
@@ -23,7 +34,33 @@ function Headers() {
     >
       <Container sm>
         <Row justify="space-between">
-          <Text>Auditorium</Text>
+        <Row align="baseline" css={{width:"fit-content"}}>
+        <Link href="/">
+          <a> 
+          <Button bordered color="primary" auto>
+          <Text h4>Auditorium</Text>
+        </Button>
+          </a>
+        </Link>
+        {showApprove && <>
+        <Link href="/backoffice">
+          <a> 
+          <Button light color="primary" auto>
+          <Text h5>Approve</Text>
+        </Button>
+          </a>
+        </Link>
+        {" | "}
+        </>
+        }
+        <Link href="/proposal">
+        <a>
+        <Button light color="primary" auto>
+        <Text h5 >Propsosal</Text>
+        </Button>
+        </a>
+        </Link>
+        </Row>
           <ConnectButton />
         </Row>
       </Container>

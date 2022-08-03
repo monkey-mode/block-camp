@@ -12,12 +12,10 @@ import {
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
 
 
 export default function TaskCard(props) {
-  const { head, description, isLock, bounty, onExpanded, expanded } = props;
-  const { isConnected } = useAccount();
+  const { head, text, link , isLock, bounty,task_id } = props;
   const [comments, setComments] = useState([]);
 
   return (
@@ -26,7 +24,8 @@ export default function TaskCard(props) {
         <Text h3>{head}</Text>
       </Card.Header>
       <Card.Body>
-        <Text>{description}</Text>
+        <Text>{text}</Text>
+        <Text>{link}</Text>
         {isLock ? (
           <div></div>
         ) : (
@@ -39,10 +38,11 @@ export default function TaskCard(props) {
               zIndex: 1,
               top: 0,
               left: 0,
+              justifyContent:"center"
             }}
             isBlurred
           >
-<ConnectButton label="Connect Wallet To Participant"/>
+<ConnectButton label="Connect Wallet To Participate"/>
             
           </Card.Footer>
         )}
@@ -56,9 +56,6 @@ export default function TaskCard(props) {
                 color="primary"
                 auto
                 size="sm"
-                onPress={() => {
-                  onExpanded(!expanded);
-                }}
               >
                 <Text small b>
                   <Link href="#comment-section">
@@ -69,7 +66,7 @@ export default function TaskCard(props) {
               <Row css={{ width: "fit-content" }}>
                 <Avatar
                   size="md"
-                  src={`https://i.pravatar.cc/150?u=${1234}`}
+                  src={`https://i.pravatar.cc/150?u=${task_id}`}
                   color="gradient"
                   bordered
                   css={{ mr: "$6" }}

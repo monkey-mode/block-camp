@@ -10,25 +10,29 @@ import { publicProvider } from "wagmi/providers/public";
 import Headers from "../components/Header";
 
 function MyApp({ Component, pageProps }) {
-  const { chains, provider } = configureChains(
+  const { chains, provider,webSocketProvider } = configureChains(
     [chain.goerli],
-    [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()]
+    [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
   );
 
   const { connectors } = getDefaultWallets({
     appName: "My RainbowKit App",
     chains,
   });
+  const demoAppInfo = {
+    appName: "My RainbowKit App",
+  };
 
   const wagmiClient = createClient({
     autoConnect: true,
     connectors,
     provider,
+    webSocketProvider
   });
 
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
         <NextUIProvider>
           <Headers />
           <Component {...pageProps} />

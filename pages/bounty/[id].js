@@ -9,16 +9,16 @@ import {
   Spacer,
   Row,
   Button,
-  Collapse,
+  Loading,
 } from "@nextui-org/react";
 import TaskCard from "../../components/TaskCard";
 import AcceptCard from "../../components/AcceptCard";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { mockBounty, mockComments } from "../../mock";
 import { useAccount } from "wagmi";
 import { useApi } from "../../hooks/useApi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useEther } from "../../hooks/useEther";
 
 function Bounty() {
   const router = useRouter();
@@ -26,48 +26,55 @@ function Bounty() {
   const [bounty, setBounty] = useState();
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState([]);
-  const [expanded, setExpanded] = useState(false);
-  const { getBounty } = useApi();
-  const { address,isConnected } = useAccount();
+  const [showWhitelist, setShowWhitelist] = useState(false);
+  const { getBounty,getComment,addComment } = useApi();
+  const [onComment,setOnComment] = useState(false)
+  const { address, isConnected } = useAccount();
+  const {getBalance} = useEther()
+  const [isLoading,setIsLoading] = useState(false);
 
   useEffect(() => {
     if (id) {
       fetchProfile();
     }
-  }, [id]);
+  },[id,onComment]);
 
-  useEffect(() => {}, [comments]);
+  useEffect(()=>{
+    setShowWhitelist(address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
+  },[address])
+
+  
 
   async function fetchProfile() {
+    setIsLoading(true)
     try {
-      // const response = await client.query(getProfiles, { id }).toPromise();
-      setBounty(mockBounty[0]);
-      setComments(mockComments);
+      console.log(await getBalance())
+      const response = await getBounty(id);
+      const responseComment = await getComment(id);
+      setBounty(response.data[0]);
+      setComments(responseComment.data);
     } catch (e) {
       console.log(e);
     }
+    setIsLoading(false)
   }
 
   return (
     <Container sm>
-      <Grid.Container gap={2} justify="center">
+      {isLoading ? <Row justify="center" css={{mt:"$20"}}><Loading type="gradient" size="xl"/></Row>:<Grid.Container gap={2} justify="center">
         <Card>
           <Grid.Container gap={1} justify="center">
             <Grid xs={9}>
               <TaskCard
-                head="Gashajd adgakfj HH asda JJJkasd "
-                description="jakdnlksnfnidbnfkjbfsfnlsdnfjksd
-          asdknsdfnjsdfkjbskfbskdfbsbdfkbsdkf
-          slfnlsjdnflsdlh"
-                isLock={address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"}
-                expanded={expanded}
-                onExpanded={(expanded) => {
-                  setExpanded(expanded);
-                }}
+                head={bounty ? bounty.title : ""}
+                text={ bounty ? bounty.description.text: ""}
+                link={ bounty ? bounty.description.link: ""}
+                task_id={id}
+                isLock={showWhitelist}
               />
             </Grid>
             <Grid xs={3}>
-              <AcceptCard />
+              <AcceptCard isDisable={!showWhitelist}/>
             </Grid>
           </Grid.Container>
         </Card>
@@ -78,7 +85,7 @@ function Bounty() {
 
         <>
           {comments.map((comment, index) => {
-            const { like, from, description, reply } = comment;
+            const { user_addr, comment:text, sub_comment } = comment;
             return (
               <Grid key={index} xs={12}>
                 <div></div>
@@ -98,7 +105,7 @@ function Bounty() {
               </Button.Group> */}
                 <Card>
                   <Card.Body css={{ p: "$6" }}>
-                    <Textarea bordered readOnly initialValue={description} />
+                    <Textarea bordered readOnly initialValue={text} />
                   </Card.Body>
                   <Card.Footer>
                     <Grid.Container>
@@ -106,12 +113,12 @@ function Bounty() {
                         <Avatar
                           css={{ mr: "$6" }}
                           size="md"
-                          src={`https://i.pravatar.cc/150?u=${from}`}
+                          src={`https://i.pravatar.cc/150?u=${user_addr}`}
                           color="gradient"
                           bordered
                         />
                         <Col>
-                          <Text h6>{from}</Text>
+                          <Text h6>{user_addr}</Text>
                           <>
                             <span className="material-symbols-rounded">
                               workspace_premium
@@ -135,19 +142,20 @@ function Bounty() {
                             Reply
                           </Text>
                         </Button>
-                        {reply
-                          ? reply.map((reply, index) => {
+                        {sub_comment
+                          ? sub_comment.map((reply, index) => {
+                            const {sub_comment,user_addr} = reply;
                               return (
                                 <Grid xs={12} key={index}>
                                   <Col>
                                     <Card.Divider></Card.Divider>
                                     <Text small css={{ pl: "$8" }}>
-                                      {reply.description}
+                                      {sub_comment}
                                     </Text>
                                     <Text
                                       small
                                       color="primary"
-                                    >{` - ${reply.from}`}</Text>
+                                    >{` - ${user_addr}`}</Text>
                                   </Col>
                                 </Grid>
                               );
@@ -177,49 +185,43 @@ function Bounty() {
                 <Row>
                   <Button
                     ghost
-                    sm
                     color="primary"
                     auto
-                    onPress={() => {
-                      const newValue = [
-                        ...comments,
-                        {
-                          from: address,
-                          description: commentText,
-                          like: -5,
-                        },
-                      ];
-                      setComments(newValue);
-                      console.log(newValue);
+                    onPress={ async () => {
+                      await addComment(id,commentText,address)
+                      setOnComment(!onComment)
                     }}
                   >
                     submit
                   </Button>
                 </Row>
-                {address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" ? (
-                  <div></div>
-                ) : (
-                  <Card.Footer
-                    css={{
-                      bgBlur: "#ffffff66",
-                      position: "absolute",
-                      borderRadius: "0",
-                      height: "100%",
-                      zIndex: 500,
-                      top: 0,
-                      left: 0,
-                    }}
-                    isBlurred
-                  >
-                    <ConnectButton label="Connect Wallet To Participant"/>
-
-                  </Card.Footer>
-                )}
+                <div id="comment">
+                  {showWhitelist ? (
+                    <div></div>
+                  ) : (
+                    <Card.Footer
+                      css={{
+                        bgBlur: "#ffffff66",
+                        position: "absolute",
+                        borderRadius: "0",
+                        height: "100%",
+                        zIndex: 500,
+                        top: 0,
+                        left: 0,
+                        justifyContent:"center"
+                      }}
+                      isBlurred
+                    >
+                      <ConnectButton label="Connect Wallet To Participate" />
+                    </Card.Footer>
+                  )}
+                </div>
               </div>
             </Card.Body>
           </Card>
         </Grid>
-      </Grid.Container>
+      </Grid.Container>}
+      
     </Container>
   );
 }

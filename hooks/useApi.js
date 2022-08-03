@@ -4,15 +4,47 @@ export function useApi() {
   async function getBountys() {
     let res = {};
     try {
-      res = await axios.get(`http://localhost:3000/api/bounty`);
+      res = await axios.get(`https://block-camp.herokuapp.com/tasks`);
     } catch (e) {
       console.log(e);
     }
-    console.log(res);
     return res;
   }
-  async function getAccount() {
-    return "asdadasd";
+  async function getBounty(taskId) {
+    let res = {};
+    try {
+      res = await axios.get(`https://block-camp.herokuapp.com/tasks/${taskId}`);
+    } catch (e) {
+      console.log(e);
+    }
+    return res;
   }
-  return { getBountys };
+  async function getComment(taskId) {
+    let res = {};
+    try {
+      res = await axios.get(`https://block-camp.herokuapp.com/comments/${taskId}`);
+    } catch (e) {
+      console.log(e);
+    }
+    return res;
+  }
+
+  async function addComment(task_id,comment,user_addr) {
+    let res = {};
+    try {
+      res = await axios.post(`https://block-camp.herokuapp.com/comment`,{task_id,comment,user_addr});
+    } catch (e) {
+      console.log(e);
+    }
+    return res;
+  }
+  async function postPoposal(form) {
+    try {
+      await axios.post(`https://block-camp.herokuapp.com/task`,form);
+    console.log(form)
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  return { getBountys,getBounty,getComment,addComment,postPoposal };
 }

@@ -12,7 +12,8 @@ import {
   Progress,
 } from "@nextui-org/react";
 
-export default function AcceptCard() {
+export default function AcceptCard(props) {
+  const {isDisable} = props
   return (
     <Card variant="flat">
       <Grid.Container gap={2}>
@@ -26,6 +27,7 @@ export default function AcceptCard() {
           <Col>
             <Text h6>Standard Auditor</Text>
             <Button
+            disabled={isDisable}
               size="sm"
               auto
               color="secondary"
@@ -39,6 +41,8 @@ export default function AcceptCard() {
           <Col>
             <Text h6>HighLevel Auditor</Text>
             <Button
+            disabled={isDisable}
+
               size="sm"
               auto
               // icon={<span className="material-symbols-rounded">verified</span>}
