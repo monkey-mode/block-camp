@@ -11,9 +11,13 @@ import {
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
+
 
 export default function TaskCard(props) {
   const { head, description, isLock, bounty, onExpanded, expanded } = props;
+  const { isConnected } = useAccount();
   const [comments, setComments] = useState([]);
 
   return (
@@ -30,7 +34,6 @@ export default function TaskCard(props) {
             css={{
               bgBlur: "#ffffff66",
               position: "absolute",
-              borderStyle: "dashed",
               borderRadius: "0",
               height: "100%",
               zIndex: 1,
@@ -38,7 +41,10 @@ export default function TaskCard(props) {
               left: 0,
             }}
             isBlurred
-          ></Card.Footer>
+          >
+<ConnectButton label="Connect Wallet To Participant"/>
+            
+          </Card.Footer>
         )}
       </Card.Body>
       <Card.Footer css={{ zIndex: 2 }}>

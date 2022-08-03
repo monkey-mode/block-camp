@@ -31,9 +31,7 @@ export default function Home() {
   return (
     <Container sm>
       <Row align="baseline">
-        <Text h3>Explore</Text>
-        <Text h5>bounty </Text>
-        Instantly earn crypto by discovering web3
+        <Text h5>Select your project your want to participant</Text>
       </Row>
 
       <Grid.Container gap={2} justify="center">

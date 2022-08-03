@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import { mockBounty, mockComments } from "../../mock";
 import { useAccount } from "wagmi";
 import { useApi } from "../../hooks/useApi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 function Bounty() {
   const router = useRouter();
@@ -27,7 +28,7 @@ function Bounty() {
   const [comments, setComments] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const { getBounty } = useApi();
-  const { address } = useAccount();
+  const { address,isConnected } = useAccount();
 
   useEffect(() => {
     if (id) {
@@ -58,7 +59,7 @@ function Bounty() {
                 description="jakdnlksnfnidbnfkjbfsfnlsdnfjksd
           asdknsdfnjsdfkjbskfbskdfbsbdfkbsdkf
           slfnlsjdnflsdlh"
-                isLock={true}
+                isLock={address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"}
                 expanded={expanded}
                 onExpanded={(expanded) => {
                   setExpanded(expanded);
@@ -164,36 +165,57 @@ function Bounty() {
           <Card>
             <Card.Body css={{ p: "$6" }} id="comment-section">
               <Text h5>Write your answer</Text>
-              <Textarea
-                minRows={6}
-                fullWidth
-                css={{ my: "$6" }}
-                onChange={(e) => {
-                  setCommentText(e.target.value);
-                }}
-              />
-              <Row>
-                <Button
-                  ghost
-                  sm
-                  color="primary"
-                  auto
-                  onPress={() => {
-                    const newValue = [
-                      ...comments,
-                      {
-                        from: address,
-                        description: commentText,
-                        like: -5,
-                      },
-                    ];
-                    setComments(newValue);
-                    console.log(newValue);
+              <div>
+                <Textarea
+                  minRows={6}
+                  fullWidth
+                  css={{ my: "$6" }}
+                  onChange={(e) => {
+                    setCommentText(e.target.value);
                   }}
-                >
-                  submit
-                </Button>
-              </Row>
+                />
+                <Row>
+                  <Button
+                    ghost
+                    sm
+                    color="primary"
+                    auto
+                    onPress={() => {
+                      const newValue = [
+                        ...comments,
+                        {
+                          from: address,
+                          description: commentText,
+                          like: -5,
+                        },
+                      ];
+                      setComments(newValue);
+                      console.log(newValue);
+                    }}
+                  >
+                    submit
+                  </Button>
+                </Row>
+                {address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" ? (
+                  <div></div>
+                ) : (
+                  <Card.Footer
+                    css={{
+                      bgBlur: "#ffffff66",
+                      position: "absolute",
+                      borderRadius: "0",
+                      height: "100%",
+                      zIndex: 500,
+                      top: 0,
+                      left: 0,
+                    }}
+                    isBlurred
+                  >
+                    <ConnectButton label="Connect Wallet To Participant"/>
+
+                  </Card.Footer>
+                )}
+              </div>
             </Card.Body>
           </Card>
         </Grid>

@@ -1,8 +1,9 @@
 import { Container, Card, Text, Row } from "@nextui-org/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import {useEffect} from "react";
 
-export default function Headers() {
+function Headers() {
   const { isConnected } = useAccount({
     onDisconnect() {
       location.reload();
@@ -29,3 +30,5 @@ export default function Headers() {
     </Card.Footer>
   );
 }
+
+export default Headers;
