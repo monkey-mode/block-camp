@@ -4,12 +4,12 @@ import ABI from "../assets/abi";
 
 const contractAddress = "0x84e67AF19b12201A12fd51b2c7897374539501cb";
 
-export function StartHighLevel() {
+export function StartHighLevel(id) {
   const { config } = usePrepareContractWrite({
     addressOrName: contractAddress,
     contractInterface: ABI,
     functionName: "acceptTask",
-    args: [15, true],
+    args: [22, true],
     onError(error) {
         console.log('Error', error)
       },
@@ -31,12 +31,12 @@ export function StartHighLevel() {
   );
 }
 
-export function StartStandard() {
+export function StartStandard(id) {
   const { config } = usePrepareContractWrite({
     addressOrName: contractAddress,
     contractInterface: ABI,
     functionName: "acceptTask",
-    args: [15, false],
+    args: [22, false],
     onError(error) {
         console.log('Error', error)
       },
