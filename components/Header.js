@@ -18,7 +18,7 @@ function Headers() {
   );
 
   useEffect(()=>{
-    setShowApprove(address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
+    setShowApprove(address == "0x9612aBFa520e1F0A3Ee2B9A683bcC599eF652b44")
   },[address,isConnected])
 
   return (
@@ -56,7 +56,7 @@ function Headers() {
         <Link href="/proposal">
         <a>
         <Button light color="primary" auto>
-        <Text h5 >Propsosal</Text>
+        <Text h5 >Proposal</Text>
         </Button>
         </a>
         </Link>

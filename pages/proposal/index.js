@@ -3,22 +3,32 @@ import {
 } from "@nextui-org/react";
 import {useState,useEffect} from "react";
 import { useApi } from "../../hooks/useApi";
-import {useEther } from "../../hooks/useEther";
+import { ethers } from "ethers";
+import ABI from "../../assets/abi.json";
 import * as dayjs from 'dayjs'
+import { usePrepareContractWrite, useContractWrite,useContractEvent } from 'wagmi'
 
 export default function Proposal() {
   const [form,setForm] =useState()
-  const [onChain,setOnChain] = useState()
+  const [onChain,setOnChain] = useState({_period:0,_amount:0,_highAuditMax:0,_midAuditMax:0})
   const {postPoposal} = useApi();
-  const {getAllProposal,propose} = useEther();
 
-  useEffect(()=>{
-    // async function fetch(){
-    //   console.log(await getAllProposal())
-    // }
-    // fetch()
-    console.log(onChain)
-  },[onChain])
+  const { config } = usePrepareContractWrite({
+    addressOrName: '0x84e67AF19b12201A12fd51b2c7897374539501cb',
+    contractInterface: ABI,
+    functionName: 'propose',
+    args:[onChain._period,onChain._amount,onChain._highAuditMax,onChain._midAuditMax]
+  })
+  useContractEvent({
+    addressOrName: '0x84e67AF19b12201A12fd51b2c7897374539501cb',
+    contractInterface: ABI,
+    eventName: 'Propose',
+    listener: async (event) => {
+      await postPoposal({...form,task_id:`${form.task_id}#${event[1].toNumber()}`});
+    },
+  })
+
+  const { writeAsync } = useContractWrite(config)
 
   return (
     <Container sm>
@@ -34,7 +44,7 @@ export default function Proposal() {
           clearable
           color="primary"
           helperText="Excelent Project Name"
-          label="Projrct Name"
+          label="Project Name"
           placeholder="Enter Your Project Name"
           onChange={(e)=>{setForm({...form,task_id:e.target.value})}}
         />
@@ -49,7 +59,6 @@ export default function Proposal() {
               
               placeholder="Enter Your Title Description"
           onChange={(e)=>{setForm({...form,title:e.target.value})}}
-
             />
           </Grid>
           <Grid xs={12}>
@@ -112,10 +121,14 @@ export default function Proposal() {
         />
             </Grid>
             <Button shadow color="gradient" auto css={{mb:"$6"}} onPress={async ()=>{
-              await postPoposal(form);
-              await propose(onChain);
+              try{
+                await writeAsync?.()
+              }catch(e){
+                console.log(e)
+              }
+             
             }} >
-          Gradient
+          Submit
         </Button>
         </Grid.Container>
       </Card>

@@ -54,7 +54,7 @@ function Bounty() {
   },[id,onComment]);
 
   useEffect(()=>{
-    setShowWhitelist(address == "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")
+    setShowWhitelist(address == "0x9612aBFa520e1F0A3Ee2B9A683bcC599eF652b44")
   },[address])
 
   return (
@@ -72,7 +72,7 @@ function Bounty() {
               />
             </Grid>
             <Grid xs={3}>
-              <AcceptCard isDisable={!showWhitelist}/>
+              <AcceptCard isDisable={false}/>
             </Grid>
           </Grid.Container>
         </Card>

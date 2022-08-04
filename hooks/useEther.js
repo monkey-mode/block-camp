@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import ABI from "../assets/abi.json"
+import { useContractRead } from 'wagmi'
 
 export function useEther() {
     let provider;
@@ -7,7 +8,7 @@ export function useEther() {
         provider = new ethers.providers.Web3Provider(window.ethereum)
 
       }
-  const contractAddress = "0x3Ef7505dbcFb287489aD0b95265ccfb4f850E36C"
+  const contractAddress = "0x84e67AF19b12201A12fd51b2c7897374539501cb"
   const auditorium = new ethers.Contract(contractAddress, ABI, provider)
 
 
@@ -32,20 +33,14 @@ export function useEther() {
     
   }
 
-  async function propose(onChain){
-    const {_period,_amount,_highAuditMax,_midAuditMax} =onChain;
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner()
-    const auditoriumWithSigner = auditorium.connect(signer);
-
+  async function getProposal(index){
     let balance
     try{
-        balance = await auditoriumWithSigner.propose(_period,_amount,_highAuditMax,_midAuditMax);
-        console.log(balance,"proposal")
+        balance = await auditorium.getProposal(index);
     }catch(e){
         console.log(e)
     }
-    
+    return balance
   }
 
 //   async function getTokenInfo(): Promise<TokenInfo> {
@@ -127,6 +122,6 @@ export function useEther() {
   return {
     getBalance,
     getAllProposal,
-    propose
+    getProposal
   }
 }

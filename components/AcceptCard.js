@@ -11,6 +11,8 @@ import {
   Button,
   Progress,
 } from "@nextui-org/react";
+import AcceptStandard from "./AcceptStandard"
+import AcceptHighLevel from "./AcceptHighLevel"
 
 export default function AcceptCard(props) {
   const {isDisable} = props
@@ -26,30 +28,13 @@ export default function AcceptCard(props) {
         <Grid xs={12}>
           <Col>
             <Text h6>Standard Auditor</Text>
-            <Button
-            disabled={isDisable}
-              size="sm"
-              auto
-              color="secondary"
-              // icon={<span className="material-symbols-rounded">verified</span>}
-            >
-              Start
-            </Button>
+            <AcceptStandard/>
           </Col>
         </Grid>
         <Grid xs={12}>
           <Col>
             <Text h6>HighLevel Auditor</Text>
-            <Button
-            disabled={isDisable}
-
-              size="sm"
-              auto
-              // icon={<span className="material-symbols-rounded">verified</span>}
-              color="primary"
-            >
-              Start
-            </Button>
+<AcceptHighLevel/>
           </Col>
         </Grid>
       </Grid.Container>

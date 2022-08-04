@@ -23,14 +23,15 @@ export default function TaskCard(props) {
         <Text h3>{head}</Text>
       </Card.Header>
       <Card.Body>
-        <div>{parse(text)}</div>
-        <Link
+        <div style={{zIndex:"1000"}}>{parse(text)}</div>
+        <div><Link
           icon
           color="primary"
           target="_blank"
           href="https://github.com/nextui-org/nextui"
         >
           {link}
+          
         </Link>
         {isLock ? (
           <div></div>
@@ -42,16 +43,15 @@ export default function TaskCard(props) {
               borderRadius: "0",
               height: "100%",
               zIndex: 1,
-              top: 0,
-              left: 0,
-              justifyContent:"center"
+              bottom: 0,
+              justifyContent:"baseline"
             }}
             isBlurred
-          >
-<ConnectButton label="Connect Wallet To Participate"/>
-            
+          > 
           </Card.Footer>
         )}
+        </div>
+        
       </Card.Body>
       <Card.Footer css={{ zIndex: 2 }}>
         <Grid.Container>

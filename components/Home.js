@@ -10,16 +10,17 @@ import {
   Loading
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import {useApi} from "../hooks/useApi";
+import { useEther } from "../hooks/useEther";
 
 export default function Home() {
   const router = useRouter();
   const { getBountys } = useApi();
   const [profiles, setProfiles] = useState([]);
-
+  const {getProposal} =useEther();
   const [isLoading,setIsLoading] = useState(false);
+
   useEffect(() => {
     fetchProfiles();
   },[]);
@@ -34,26 +35,33 @@ export default function Home() {
     setIsLoading(false)
   }
 
+  async function fetchProposal(id){
+    const data = await getProposal(id); 
+    return data
+  }
+
   return (
     <Container sm>
     <Row align="baseline">
       <Text h5>Select your project your want to participate</Text>
     </Row>
     {isLoading ? <Row justify="center" css={{mt:"$20"}}><Loading type="gradient" size="xl"/></Row>:<Grid.Container gap={2} justify="center">
-      {profiles.map((profile, index) => {
+      {profiles.map( (profile, index) => {
         const {
           task_id,
           description,
           title,
-          _id
+          _id,status
         } = profile;
+        if(status == "pendding"){
+          return
+        }
         return (
           <Grid xs={6} key={index}>
             {/* <Link href={`/bounty/${projectId}`} key={index}> */}
             <Card
               isPressable
               onPress={() => {
-                router.prefetch(`/bounty/${task_id}`);
                 router.push(`/bounty/${task_id}`);
               }}
             >

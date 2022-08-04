@@ -10,11 +10,11 @@ import {
   Loading
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import { mockBounty } from "../../mock";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 import {useApi} from "../../hooks/useApi";
+import ApproveBtn from "../../components/ApproveBtn"
+
 
 export default function BackOffice() {
   const router = useRouter();
@@ -30,9 +30,7 @@ export default function BackOffice() {
     setIsLoading(true)
     try {
       const response = await getBountys();
-      if(address=="0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"){
-        setProfiles(response.data);
-      }
+      setProfiles(response.data);
     } catch (e) {
       console.log(e);
     }
@@ -50,8 +48,11 @@ export default function BackOffice() {
             task_id,
             description,
             title,
-            _id
+            _id,status
           } = profile;
+          if(status == "approve"){
+            return
+          }
           return (
             <Grid xs={6} key={index}>
               {/* <Link href={`/bounty/${projectId}`} key={index}> */}
@@ -97,9 +98,7 @@ export default function BackOffice() {
                 <Card.Footer>
                   <Grid.Container>
                     <Grid xs={6} justify="center">
-                      <Button size="xs" color="success">
-                        Approve
-                      </Button>
+                      <ApproveBtn/>
                     </Grid>
                     <Grid xs={6} justify="center">
                       <Button size="xs" color="error">
