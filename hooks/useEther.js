@@ -43,6 +43,16 @@ export function useEther() {
     return balance
   }
 
+  async function getProposalAuditor(index){
+    let balance
+    try{
+        balance = await auditorium.getProposalAuditor(index);
+    }catch(e){
+        console.log(e)
+    }
+    return balance
+  }
+
 //   async function getTokenInfo(): Promise<TokenInfo> {
 //     const [decimals, name, symbol] = await Promise.all([
 //       defibank.methods.decimals().call(),
@@ -122,6 +132,7 @@ export function useEther() {
   return {
     getBalance,
     getAllProposal,
-    getProposal
+    getProposal,
+    getProposalAuditor
   }
 }

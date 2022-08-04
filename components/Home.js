@@ -13,12 +13,13 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {useApi} from "../hooks/useApi";
 import { useEther } from "../hooks/useEther";
+import * as dayjs from 'dayjs'
 
 export default function Home() {
   const router = useRouter();
   const { getBountys } = useApi();
   const [profiles, setProfiles] = useState([]);
-  const {getProposal} =useEther();
+  const {getProposal,getProposalAuditor} =useEther();
   const [isLoading,setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -28,7 +29,19 @@ export default function Home() {
     setIsLoading(true)
     try {
       const response = await getBountys();
-      setProfiles(response.data);
+      let newData=[];
+      for(let i=0; i<response.data.length ;i++ ){
+        const id = response.data[i].task_id.split("-")[1]
+        if(id){
+          const {bounty,state} = await fetchProposal(id)
+          const {highAuditors,midAuditors,midAuditMax,highAuditMax} = await getProposalAuditor(id)
+          if(state==2){
+            newData.push({...response.data[i],bounty:bounty.toNumber(),state,auditor:{highAuditors,midAuditors,highAuditMax,midAuditMax}})
+          }
+        }
+      }
+      console.log(newData)
+      setProfiles(newData);
     } catch (e) {
       console.log(e);
     }
@@ -51,11 +64,8 @@ export default function Home() {
           task_id,
           description,
           title,
-          _id,status
+          _id,status,bounty,auditor
         } = profile;
-        if(status == "pendding"){
-          return
-        }
         return (
           <Grid xs={6} key={index}>
             {/* <Link href={`/bounty/${projectId}`} key={index}> */}
@@ -72,7 +82,7 @@ export default function Home() {
                   </Text>
                   <div>
                     <Text small color="secondary">
-                      {"    "}2/5 Auditor To Start
+                      {"    "}{`${auditor.highAuditors.length +auditor.midAuditors.length }`}/{`${auditor.midAuditMax.toNumber() + auditor.highAuditMax.toNumber()}`} Auditor To Start
                     </Text>
                   </div>
                 </div>
@@ -106,12 +116,12 @@ export default function Home() {
                 <Grid.Container>
                   <Grid xs={9}>
                     <Button size="xs" auto color="warning">
-                      +99 xp
+                      +20 xp
                     </Button>
                   </Grid>
                   <Grid xs={3} direction="column" justify="flex-end">
                     <Button size="xs" auto color="gradient">
-                      {`${400} DAI`}
+                      {`${bounty} DAI`}
                     </Button>
                   </Grid>
                 </Grid.Container>

@@ -13,7 +13,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 import {useApi} from "../../hooks/useApi";
-import ApproveBtn from "../../components/ApproveBtn"
+import {useEther} from "../../hooks/useEther"
+import {ApproveBtn} from "../../components/WagmiComponent"
 
 
 export default function BackOffice() {
@@ -21,6 +22,7 @@ export default function BackOffice() {
   const { address } = useAccount();
   const [profiles, setProfiles] = useState([]);
   const { getBountys } = useApi();
+  const {getProposal} =useEther();
   const [isLoading,setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -30,11 +32,27 @@ export default function BackOffice() {
     setIsLoading(true)
     try {
       const response = await getBountys();
-      setProfiles(response.data);
+      let newData=[];
+      for(let i=0; i<response.data.length ;i++ ){
+        const id = response.data[i].task_id.split("-")[1]
+        if(id){
+          const {bounty,state} = await fetchProposal(id)
+          if(state==1){
+            newData.push({...response.data[i],bounty:bounty.toNumber(),state,id})
+          }
+        }
+      }
+      console.log(newData)
+      setProfiles(newData);
     } catch (e) {
       console.log(e);
     }
     setIsLoading(false)
+  }
+
+  async function fetchProposal(id){
+    const data = await getProposal(id); 
+    return data
   }
   return (
     <Container sm>
@@ -46,13 +64,11 @@ export default function BackOffice() {
         {profiles.map((profile, index) => {
           const {
             task_id,
+            id,
             description,
             title,
-            _id,status
+            _id,status,bounty
           } = profile;
-          if(status == "approve"){
-            return
-          }
           return (
             <Grid xs={6} key={index}>
               {/* <Link href={`/bounty/${projectId}`} key={index}> */}
@@ -98,7 +114,7 @@ export default function BackOffice() {
                 <Card.Footer>
                   <Grid.Container>
                     <Grid xs={6} justify="center">
-                      <ApproveBtn/>
+                      <ApproveBtn proposal={id}/>
                     </Grid>
                     <Grid xs={6} justify="center">
                       <Button size="xs" color="error">

@@ -11,8 +11,7 @@ import {
   Button,
   Progress,
 } from "@nextui-org/react";
-import AcceptStandard from "./AcceptStandard"
-import AcceptHighLevel from "./AcceptHighLevel"
+import {StartStandard,StartHighLevel} from "./WagmiComponent"
 
 export default function AcceptCard(props) {
   const {isDisable} = props
@@ -28,13 +27,13 @@ export default function AcceptCard(props) {
         <Grid xs={12}>
           <Col>
             <Text h6>Standard Auditor</Text>
-            <AcceptStandard/>
+            <StartStandard/>
           </Col>
         </Grid>
         <Grid xs={12}>
           <Col>
             <Text h6>HighLevel Auditor</Text>
-<AcceptHighLevel/>
+<StartHighLevel/>
           </Col>
         </Grid>
       </Grid.Container>

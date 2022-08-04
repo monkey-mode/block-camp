@@ -38,7 +38,6 @@ function Bounty() {
     async function fetchProfile() {
       setIsLoading(true)
       try {
-        console.log(await getBalance())
         const response = await getBounty(id);
         const responseComment = await getComment(id);
         setBounty(response.data[0]);

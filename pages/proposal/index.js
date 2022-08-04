@@ -24,7 +24,7 @@ export default function Proposal() {
     contractInterface: ABI,
     eventName: 'Propose',
     listener: async (event) => {
-      await postPoposal({...form,task_id:`${form.task_id}#${event[1].toNumber()}`});
+      await postPoposal({...form,task_id:`${form.task_id}-${event[1].toNumber()}`});
     },
   })
 
